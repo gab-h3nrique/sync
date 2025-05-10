@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./database.db"
+}
+
+model Users {
+  id                String @id @default(cuid())
+
+  name              String
+  email             String @unique
+  password          String
+  role              Int // 100 = adm // 200 = supervisor // 300 teammate
+  
+  createdAt         DateTime? @default(now())
+  updatedAt         DateTime? @updatedAt
+
+  @@map("users")
+}
+
+model Settings {
+  id        Int @id @default(autoincrement())
+
+  name      String //  maxInstallments
+  value     String? //  12x
+  jsonValue Json? //  { 'maxInstallments' : 12, 'minInstallments': 4}
+
+  @@map("settings")
+}
+
+model Fails {
+  id        Int @id @default(autoincrement())
+
+  name      String @default("runtime") // api, docker, git, runtime
+
+  message   String? // the error message
+  erro      Json? // the error object
+  status    String? @default("stopped") // new, resolved, solved
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("fails")
+}
+
+model Projects {
+  id        Int @id @default(autoincrement())
+  name      String @unique
+  url       String
+  envs      String?     // can be stringfied JSON
+  commands  String?
+  status    String? @default("stopped") // stopped, building, starting, restarting, running, error
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("projects")
+}

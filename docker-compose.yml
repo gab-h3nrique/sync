@@ -1,0 +1,14 @@
+
+services:
+
+  # application service
+  sync:
+    build: "./"
+    container_name: pulsar
+    restart: always
+    volumes:
+      - .:/src
+    ports:
+      - "3000:3000"
+
+
