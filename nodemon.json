@@ -1,0 +1,6 @@
+{
+  "watch": ["src/**/*"],
+  "exec": "nodemon --exec node -r ts-node/register --env-file=.env ./src/server.ts",
+  "ext": "js ts"
+}
+

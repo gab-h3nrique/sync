@@ -1,49 +1,75 @@
-FROM node:24-alpine AS deps
+# FROM node:18-alpine AS deps
 
-WORKDIR /app
+# # Install dependencies only when needed
 
-RUN apk add --no-cache libc6-compat
-COPY package*.json ./
-COPY tailwind.config.ts postcss.config.mjs ./
-RUN npm install
-
-
-FROM node:24-alpine AS builder
-
-WORKDIR /app
-
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/tailwind.config.ts /app/postcss.config.mjs ./
-COPY . .
-RUN npx prisma generate
-# RUN npx prisma db push
-RUN npm run build
+# WORKDIR /app
+# RUN apk add --no-cache libc6-compat
+# COPY package*.json ./
+# COPY tsconfig.json .env* ./
+# COPY . .
+# RUN npm install
 
 
-FROM node:24-alpine AS runner
 
-WORKDIR /app
 
-ENV NODE_ENV production
+# FROM node:18-alpine AS builder
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# WORKDIR /app
+# COPY --from=deps /app/src/ ./src/
+# COPY --from=deps /app/node_modules ./node_modules
+# COPY --from=deps /app/package*.json ./
+# COPY --from=deps /app/tsconfig.json .env* ./
+# COPY --from=deps /app/.env* ./
+# COPY . .
+# RUN npm run build
 
-COPY --from=deps /app/tailwind.config.ts /app/postcss.config.mjs ./
 
-# COPY --from=builder /app/public ./public
-COPY --from=builder /app/prisma ./prisma
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-USER nextjs
 
-ENV NEXT_TELEMETRY_DISABLED 1
+# FROM node:18-alpine AS runner
+
+# WORKDIR /app
+
+# COPY --from=deps /app/node_modules ./node_modules
+# COPY --from=deps /app/package*.json ./
+# COPY --from=deps /app/tsconfig.json .env* ./
+# COPY --from=builder /app/dist ./dist/
+# COPY --from=deps /app/.env* ./
+# COPY . .
 
 # EXPOSE 3000
-# ENV PORT 3000
-# ENV HOSTNAME "0.0.0.0"
 
-CMD ["node", "server.js"]
+# CMD ["node", "--env-file=.env", "dist/server.js"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+FROM node:20-alpine as deps
+
+# Install dependencies only when needed
+WORKDIR /app
+RUN apk add --no-cache libc6-compat
+COPY package*.json ./
+COPY tsconfig.json .env* ./
+RUN npm install
+COPY . .
+
+RUN npm run build
+
+# ENV HOSTNAME "0.0.0.0"
+EXPOSE 3000
+
+CMD ["node", "--env-file=.env", "dist/server.js"]
+
+
+
+

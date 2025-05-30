@@ -38,8 +38,9 @@ model Settings {
 model Fails {
   id        Int @id @default(autoincrement())
 
-  name      String @default("runtime") // api, docker, git, runtime
+  type      String @default("runtime") // api, docker, git, runtime
 
+  name      String? // the error name
   message   String? // the error message
   erro      Json? // the error object
   status    String? @default("stopped") // new, resolved, solved
