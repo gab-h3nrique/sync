@@ -4,8 +4,11 @@ export interface FailType {
     id?: number,
 
     type: string,
+
     name?: string,
     message?: string,
+    data?: any,
+    error?: any,
     status?: string,
 
     updatedAt?: string,
@@ -20,7 +23,8 @@ export const EMPTY_FAIL = {
     
     name: '',
     message: '',
-    erro: '',
+    data: '',
+    error: '',
     status: '',
 
     updatedAt: undefined,

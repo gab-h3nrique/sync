@@ -9,6 +9,8 @@ const port = parseInt(process.env.PORT || '3000', 10)
 
 const app = express()
 
+app.use(express.json())
+
 routes(app)
 
 app.listen(port, () => console.log(`Server listening at http://localhost:${port} as ${ process.env.NODE_ENV ? process.env.NODE_ENV : 'development' }`))

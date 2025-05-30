@@ -1,3 +1,6 @@
+import { FailModel } from "../models/failModel";
+import { FailType } from "../types/failType";
+
 function factory() {
 
     return {
@@ -11,28 +14,31 @@ function factory() {
 
                 } catch (error) {
 
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    // console.log('REQEUST:   ', req)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    console.error(error.name)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    console.error(error.message)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    console.error(error.trace)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    console.error(error.cause)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    console.error(error.stack)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    console.error(error.code)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    console.error(error.code)
-                    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                    const formatedData = {
+                        url: req.url,
+                        method: req.method,
+                        headers: req.headers,
+                        body: req.body,
+                        query: req.query,
+                    }
 
-                    // Aqui você poderia salvar no banco:
-                    // await FailModel.upsert({ name: error.name, message: error.message, stack: error.stack });
+                    const formatedError = {
+                        name: error.name || 'UnknownError',
+                        message: error.message || 'An unknown error occurred.',
+                        stack: error.stack || 'No stack trace available.',
+                    }
 
-                    res.status(500).json({ success: false, data: null, message: 'Internal server error.', });
+                    const item: FailType = {
+                        type: 'api',
+                        name: error.name,
+                        message: error.message,
+                        data: formatedData,
+                        error: formatedError,
+                    }
+
+                    await FailModel.upsert(item);
+
+                    return res.status(500).json({ success: false, data: null, message: 'Internal server error.', });
 
                 }
 

@@ -81,7 +81,7 @@ function model() {
 
                 where: {
                     OR: [
-                        { type:{ contains: input } }, 
+                        { type:{ contains: String(input) } }, 
                         { name:{ contains: input } }, 
                         { message:{ contains: input } }, 
                     ],
@@ -99,6 +99,7 @@ function model() {
             const total = await query.count({
                 where: {
                     OR: [
+                        { type:{ contains: String(input) } }, 
                         { name:{ contains: input } }, 
                         { message:{ contains: input } }, 
                     ],

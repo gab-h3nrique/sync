@@ -40,9 +40,10 @@ model Fails {
 
   type      String @default("runtime") // api, docker, git, runtime
 
-  name      String? // the error name
+  name      String @default("UnknownError") // the error name
   message   String? // the error message
-  erro      Json? // the error object
+  data      Json? // the data object
+  error     Json? // the error object
   status    String? @default("stopped") // new, resolved, solved
 
   createdAt DateTime? @default(now())
