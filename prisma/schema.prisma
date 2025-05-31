@@ -54,10 +54,13 @@ model Fails {
 
 model Projects {
   id        Int @id @default(autoincrement())
+
   name      String @unique
   url       String
-  envs      String?     // can be stringfied JSON
-  commands  String?
+  
+  envs      Json?     // can be stringfied JSON
+  commands  Json?
+  
   status    String? @default("stopped") // stopped, building, starting, restarting, running, error
 
   createdAt DateTime @default(now())

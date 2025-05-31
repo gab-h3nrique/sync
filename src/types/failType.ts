@@ -23,8 +23,8 @@ export const EMPTY_FAIL = {
     
     name: '',
     message: '',
-    data: '',
-    error: '',
+    data: {},
+    error: {},
     status: '',
 
     updatedAt: undefined,
