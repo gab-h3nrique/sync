@@ -58,6 +58,7 @@ model Projects {
   name      String @unique
   url       String
   
+  branch    String? // the git branch to use
   envs      Json?     // can be stringfied JSON
   commands  Json?
   

@@ -2,9 +2,9 @@
 services:
 
   # socket service
-  socket:
+  sync:
     build: "./"
-    container_name: pulsar-socket
+    container_name: sync
     restart: always
     volumes:
       - .:/src
@@ -13,11 +13,6 @@ services:
     networks:
       - my-network
     # comand: npm run start
-    environment:
-      PORT: 3001
-      ACCESS_TOKEN: g4rren-dansukdfrang
-      POOL_TOKEN: g4rren-sdffg
-      DATABASE_URL: postgresql://postgres:pulsar-db-ps@db:5432/postgres?schema=postgres
 
 networks:
   my-network:

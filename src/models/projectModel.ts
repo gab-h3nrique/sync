@@ -18,6 +18,7 @@ function model() {
                         { id: input }, 
                         { name:{ contains: String(input) } }, 
                         { url:{ contains: String(input) } }, 
+                        { branch:{ contains: String(input) } }, 
                     ],
                 },
 
@@ -36,6 +37,7 @@ function model() {
                         { name:{ contains: input } }, 
                         { url:{ contains: input } }, 
                         { status:{ contains: input } }, 
+                        { branch:{ contains: input } }, 
                     ],
                 },
                 orderBy: { id: 'desc'}
@@ -87,6 +89,7 @@ function model() {
                         { name:{ contains: input } }, 
                         { url:{ contains: input } }, 
                         { status:{ contains: input } }, 
+                        { branch:{ contains: input } }, 
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,
@@ -105,6 +108,7 @@ function model() {
                         { name:{ contains: input } }, 
                         { url:{ contains: input } },
                         { status:{ contains: input } }, 
+                        { branch:{ contains: input } }, 
                     ],
                     createdAt: {
                         gte: startDate !== '' ? new Date(startDate)  : undefined,

@@ -6,6 +6,7 @@ export interface ProjectType {
     name: string,
     url: string,
 
+    branch?: string,
     envs?: any,
     commands?: any,
 
@@ -22,6 +23,7 @@ export const EMPTY_PROJECT = {
     name: '',
     url: '',
 
+    branch: '',
     envs: {},
     commands: {},
 

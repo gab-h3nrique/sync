@@ -53,7 +53,7 @@
 
 
 
-FROM node:20-alpine as deps
+FROM node:24-alpine as deps
 
 # Install dependencies only when needed
 WORKDIR /app

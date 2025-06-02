@@ -1,7 +1,7 @@
 import { spawn } from 'child_process'
 import { ProjectModel } from "../models/projectModel";
 import { ProjectType } from "../types/projectType";
-import { runProjectCommand } from '../utils/runProject';
+import ProjectCommand from '../utils/projectCommand';
 
 // 200 OK
 // 201 Created
@@ -81,9 +81,13 @@ function factory() {
     
             if(!id) return res.status(400).json({ success: false, data: null, message: 'ID is required' });
 
-            const deleted = await ProjectModel.delete(id);
+            const project: ProjectType = await ProjectModel.find(id);
 
-            if(!deleted) return res.status(404).json({ success: false, data: null, message: 'Data not found' });
+            if(!project) return res.status(404).json({ success: false, data: null, message: 'Data not found' });
+
+            await ProjectModel.delete(project.id);
+            
+            ProjectCommand.delete(project)
 
             return res.status(200).json({ success: true, data: null, message: 'Data deleted successfully' });
         
@@ -91,35 +95,33 @@ function factory() {
 
         start: async(req: any, res: any) => {
 
-            // code to start the project
-
             const id = Number(req.params.id)
 
-            // const id = 1 // For testing purposes, replace with req.params.id in production
+            const project: ProjectType = await ProjectModel.find(id)
 
-            await runProjectCommand(id, 'start')
+            if(!project) return res.status(404).json({ success: false, data: null, message: 'Project not found.' })
 
-            return res.status(200).json({ success: true, message: 'Project started.' })
-        
-        },
+            ProjectCommand.run(project)
 
-        restart: async(req: any, res: any) => {
-
-            // code to restart the project
+            return res.status(200).json({ success: true, data: null, message: 'Project starting.' })
         
         },
 
         stop: async(req: any, res: any) => {
 
-            // code to stop the project
+            const id = Number(req.params.id)
+
+            const project: ProjectType = await ProjectModel.find(id)
+
+            if(!project) return res.status(404).json({ success: false, data: null, message: 'Project not found.' })
+
+            ProjectCommand.stop(project)
+
+            return res.status(200).json({ success: true, data: null, message: 'Project stopping.' })
         
         },
     
-    
     }
-
-
-
 
 }
 
