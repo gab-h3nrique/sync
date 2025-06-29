@@ -44,7 +44,7 @@ model Fails {
   message   String? // the error message
   data      Json? // the data object
   error     Json? // the error object
-  status    String? @default("stopped") // new, resolved, solved
+  status    String? @default("new") // new, resolved, solved
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -58,7 +58,7 @@ model Projects {
   name      String @unique
   url       String
   
-  branch    String? // the git branch to use
+  branch    String? @default("main")// the git branch to use
   envs      Json?     // can be stringfied JSON
   commands  Json?
   

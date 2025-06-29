@@ -59,9 +59,10 @@ function factory() {
                 id: body.id ? Number(body.id) : undefined,
                 name: body.name ? String(body.name) : '',
                 url: body.url ? String(body.url) : '',
+                branch: body.branch ? String(body.branch) : undefined,
                 envs: body.envs || {},
                 commands:  body.commands || {},
-                status: body.stauts ? String(body.stauts) : '',
+                status: body.status ? String(body.status) : undefined,
             }
 
             if(!item.name) return res.status(400).json({ success: false, data: null, message: 'Name is required.' });

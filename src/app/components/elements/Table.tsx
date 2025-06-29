@@ -1,37 +1,35 @@
-
-import React, { memo } from 'react'
+import React from 'react'
 
 export const Table = (props: React.TableHTMLAttributes<HTMLTableElement>) => {
 
-  const { className, children, ...rest} = props
+    const { className, children, ...rest} = props
 
-  return (
+    return (
 
-    <table className={`gap-[1px] w-fit h-fit flex flex-col border bg-border dark:border-dark dark:bg-border-dark rounded-xl overflow-hidden ${className}`} {...rest}>
-      {children}
-    </table>
+      // <article className="table-wrapper flex border-2 border-color-3 rounded-2xl overflow-hidden">
+      // <article className="table-wrapper">
 
-  )
+        <table className={``}>
+
+          <tbody className={` ${className as any || ''}`} {...rest as any}>
+            {children}
+          </tbody>
+
+        </table>
+
+      // </article>
+
+    )
+
 }
-export const Tbody = (props: React.HTMLAttributes<HTMLTableSectionElement>) => {
 
-  const { className, children, ...rest} = props
-
-  return (
-
-    <tbody className={`gap-[1px] w-fit h-fit flex flex-col ${className}`} {...rest}>
-      {children}
-    </tbody>
-
-  )
-}
 export const Tr = (props: React.HTMLAttributes<HTMLTableRowElement>) => {
 
   const { className, children, ...rest} = props
 
   return (
 
-    <tr className={`gap-[1px] flex ${className}`} {...rest}>
+    <tr className={`${className || ''}`} {...rest}>
       {children}
     </tr>
 
@@ -43,7 +41,7 @@ export const Td = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   return (
 
-    <td className={`p-2 w-full bg-background-2 text-color-2 dark:bg-background-2-dark dark:text-color-2-dark truncate ${className}`} {...rest}>
+    <td className={`${className || ''}`} {...rest}>
       {children}
     </td>
 
@@ -56,7 +54,7 @@ export const Th = (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => {
 
   return (
 
-    <th className={`p-2 w-full bg-background-2 text-color-2 dark:bg-background-2-dark dark:text-color-2-dark truncate ${className}`} {...rest}>
+    <th className={`${className || ''}`} {...rest}>
       {children}
     </th>
 

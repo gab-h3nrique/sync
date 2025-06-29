@@ -73,7 +73,10 @@ function model() {
                 },
                 skip: index,
                 take: limit,
-                orderBy: { id: 'desc' }
+                orderBy: [
+                    { updatedAt: 'desc' },
+                    { id: 'desc' }
+                ],
             }) || [];
             const total = await query.count({
                 where: {

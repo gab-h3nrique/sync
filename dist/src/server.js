@@ -13,5 +13,14 @@ app.get('/app/*', (req, res) => {
     res.sendFile(path_1.default.join(__dirname, 'public/app/index.html'));
 });
 app.use(express_1.default.json());
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // ou '*'
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); // se necessário
+    if (req.method === 'OPTIONS')
+        return res.sendStatus(200);
+    next();
+});
 (0, routes_1.default)(app);
 app.listen(port, () => console.log(`Server listening at http://localhost:${port} as ${process.env.NODE_ENV ? process.env.NODE_ENV : 'development'}`));

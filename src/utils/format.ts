@@ -57,14 +57,14 @@ function factory() {
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             const years = Math.floor(months / 12);
         
-            if(years > 0) return `há ${years} ano${years > 1 ? "s" : ""}`;
-            if(years == 0 && months > 0) return `há ${months} mes${months > 1 ? "es" : ""}`;
-            if(months == 0 && days > 0) return `há ${days} dia${days > 1 ? "s" : ""}`;
-            if(days == 0 && hours > 0) return `há ${hours} hora${hours > 1 ? "s" : ""}`;
-            if(hours == 0 && minutes > 0) return `há ${minutes} minuto${minutes > 1 ? "s" : ""}`;
-            if(minutes == 0) return `há ${seconds} segundos`;
+            if(years > 0) return `${years} year${years > 1 ? "s" : ""}`;
+            if(years == 0 && months > 0) return `${months} month${months > 1 ? "s" : ""} ago`;
+            if(months == 0 && days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+            if(days == 0 && hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+            if(hours == 0 && minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+            if(minutes == 0) return `${seconds} seconds`;
         
-            return 'não estimado';
+            return 'not estimated';
             
         },
 

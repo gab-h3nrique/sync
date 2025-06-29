@@ -1,59 +1,46 @@
 'use client'
 
 import React, { RefObject, useRef } from 'react'
-import { Label } from '../texts/Texts'
 
 interface Props {
+  type?: string,
   value: string,
-  className?: string
+  className?: string,
 }
 
-function Status(props: Props) {
+export default function Status(props: Props) {
 
-  const { value, ...rest } = props
+  const { type, value, ...rest } = props
 
-  function titleCase(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  function valueCase() {
+
+    return value.charAt(0).toUpperCase() + value.slice(1);
+
   }
-  
-  if(value == 'em andamento') return (
 
-    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-blue-200/10 rounded-md ${rest.className}`} {...rest}>
-      <span className='h-2 w-2 rounded-full bg-blue-500'></span>
-      <Label className='text-blue-500 truncate'>{ titleCase(value) }</Label>
-    </div>
+  function handleColor() {
 
-  )
+    if(type == 'neutral') return { op: 'bg-blue-200/10', bg: 'bg-blue-500', tx: 'text-blue-500' }
+    if(type == 'success') return { op: 'bg-green-200/10', bg: 'bg-green-500', tx: 'text-green-500' }
+    if(type == 'warning') return { op: 'bg-yellow-200/10', bg: 'bg-yellow-500', tx: 'text-yellow-500' }
+    if(type == 'error') return { op: 'bg-red-200/10', bg: 'bg-red-500', tx: 'text-red-500' }
 
-  if(value == 'aguardando peça') return (
+    return { op: 'bg-blue-200/10', bg: 'bg-blue-500', tx: 'text-blue-500' }
 
-    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-yellow-200/10 rounded-md ${rest.className}`} {...rest}>
-      <span className='h-2 w-2 rounded-full bg-yellow-500'></span>
-      <Label className='text-yellow-500 truncate'>{ titleCase(value) }</Label>
-    </div>
+  }
 
-  )
+  const color = handleColor()
 
-  if(value == 'sem solução') return (
+  return (
 
-    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-red-200/10 rounded-md ${rest.className}`} {...rest}>
-      <span className='h-2 w-2 rounded-full bg-red-500'></span>
-      <Label className='text-red-500 truncate'>{ titleCase(value) }</Label>
-    </div>
+    <article className={`flex gap-2 w-fit py-1 px-2 items-center ${color.op} rounded-md ${rest.className}`} {...rest}>
+
+      <label className={`h-2 w-2 rounded-full ${color.bg}`}></label>
+
+      <label className={`label text-color-1 truncate`}>{ valueCase() }</label>
+
+    </article>
 
   )
-
-  if(value == 'finalizado') return (
-
-    <div className={`flex gap-1 w-fit py-1 px-2 items-center bg-green-200/10 rounded-md ${rest.className}`} {...rest}>
-      <span className='h-2 w-2 rounded-full bg-green-500'></span>
-      <Label className='text-green-500'>{ titleCase(value) }</Label>
-    </div>
-
-  )
-
-  return <></>
 
 }
-
-export default Status

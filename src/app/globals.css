@@ -10,12 +10,17 @@
   --color-primary: #f97316;
   --color-primary-opacity: #f973161a;
   --color-background-1: #000000;
-  --color-background-2: #090909;
+  --color-background-2: #0a0a0a;
   --color-color-1: #cbd5e1;
   --color-color-2: #e2e8f0;
   --color-color-3: #94a3b8b8;
   --color-border: #f1f5f93d;
 
+}
+
+@layer components {
+
+  
 }
 
 @layer components {
@@ -34,6 +39,10 @@
   .list {
     @apply hover:scale-x-[1.005] duration-150 cursor-pointer
   } */
+
+  html {
+    @apply selection:text-purple-900
+  }
 
   .title {
     @apply text-[32px] font-bold
@@ -72,4 +81,43 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+/* .table-wrapper {
+  display: flex;;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 2px solid var(--color-border);
+} */
+
+table {
+  display: flex;;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 2px solid var(--color-color-2);
+}
+
+tbody {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-color-2);
+  width: 100%;
+  gap: 2px;
+}
+
+tr {
+  display: flex;
+  width: 100%;
+  gap: 2px;
+}
+
+th {
+  background: var(--color-background-2) !important;
+}
+
+td, th {
+  display: flex;
+  flex: 1;
+  background: var(--color-background-1);
+  padding: 1rem;
 }

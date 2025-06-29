@@ -32,9 +32,9 @@ function Input(props: Props) {
     //   {children}
     // </button>
 
-    <label className={`flex gap-2 description border text-color-1 dark:border-dark dark:text-color-1-dark font-semibold py-[.438rem] px-4 rounded-lg hover:scale-[1.01] duration-150 ${className}`} {...rest}>
+    <label className={`flex gap-2 description bg-background-2 border border-border text-color-1 font-semibold py-[.438rem] px-4 rounded-lg hover:scale-[.998] duration-150 ${className}`} {...rest}>
       {icon}
-      <input onChange={onChange} value={value as any || ''} className='description text-color-1 dark:text-color-1-dark bg-transparent outline-0 w-full h-full' {...rest}/>
+      <input onChange={onChange} value={value as any || ''} className='description text-color-1 dark:text-color-1-dark py-[.125rem] bg-transparent outline-0 w-full h-full' {...rest}/>
     </label>
 
   )
