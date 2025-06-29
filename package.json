@@ -39,6 +39,9 @@
     "typescript": "^5.5.4",
     "vite": "^6.3.5"
   },
+  "prisma": {
+    "schema": "./prisma/schema.prisma"
+  },
   "author": "",
   "license": "ISC",
   "description": ""

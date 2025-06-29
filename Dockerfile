@@ -55,6 +55,8 @@
 
 FROM node:24-alpine as deps
 
+RUN apk add --no-cache docker-cli docker-compose
+
 # Install dependencies only when needed
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
