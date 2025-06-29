@@ -8,9 +8,9 @@ const routes_1 = __importDefault(require("./api/routes"));
 const path_1 = __importDefault(require("path"));
 const port = parseInt(process.env.PORT || '3000', 10);
 const app = (0, express_1.default)();
-app.use('/app', express_1.default.static(path_1.default.join(__dirname, 'public/app')));
+app.use('/app', express_1.default.static(path_1.default.join(__dirname, '..', 'public', 'app')));
 app.get('/app/*', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, 'public/app/index.html'));
+    res.sendFile(path_1.default.join(__dirname, '..', 'public', 'app', 'index.html'));
 });
 app.use(express_1.default.json());
 app.use((req, res, next) => {

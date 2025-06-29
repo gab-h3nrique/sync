@@ -10,7 +10,7 @@ import ProjectsPage from "./screens/ProjectsPage";
 export default function App() {
   return (
 
-    <BrowserRouter>
+    <BrowserRouter basename="/app">
 
       <Content className='flex w-full h-full flex-col bg-background-1'>
 
@@ -24,7 +24,7 @@ export default function App() {
 
             <Route path="/projects" element={<ProjectsPage />} />
 
-            <Route path="projects/project" element={<ProjectPage />} />
+            <Route path="/projects/project" element={<ProjectPage />} />
 
           </Routes>
 

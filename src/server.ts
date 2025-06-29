@@ -9,10 +9,10 @@ const port = parseInt(process.env.PORT || '3000', 10)
 
 const app = express()
 
-app.use('/app', express.static(path.join(__dirname, 'public/app')));
+app.use('/app', express.static(path.join(__dirname, '..', 'public', 'app')));
 
 app.get('/app/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/app/index.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'app', 'index.html'));
 });
 
 app.use(express.json())

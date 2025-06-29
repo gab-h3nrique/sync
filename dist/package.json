@@ -8,7 +8,7 @@
         "app": "vite --host",
         "build": "rm -rf ./dist/ && npx tsc --project tsconfig.json && vite build",
         "react:build": "vite build",
-        "start": "node --env-file=.env ./dist/server.js",
+        "start": "node --env-file=.env ./dist/src/server.js",
         "postinstall": "prisma generate"
     },
     "dependencies": {
