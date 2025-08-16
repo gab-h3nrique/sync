@@ -17,6 +17,9 @@ export default function routes(app) {
     app.get('/api/project/:id/start', handler.error(projectController.start))
     app.get('/api/project/:id/stop', handler.error(projectController.stop))
 
+    app.post('/api/project/:id/start', handler.error(projectController.start))
+    app.post('/api/project/:id/stop', handler.error(projectController.stop))
+
     // app.get('/api/projects/:id/start', projectController.start)
     // app.get('/api/projects/:id/restart', projectController.restart)
     // app.get('/api/projects/:id/stop', projectController.stop)
