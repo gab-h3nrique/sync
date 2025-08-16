@@ -9,14 +9,23 @@ const path_1 = __importDefault(require("path"));
 const port = parseInt(process.env.PORT || '3000', 10);
 const app = (0, express_1.default)();
 app.use('/app', express_1.default.static(path_1.default.join(__dirname, '..', 'public', 'app')));
-app.get('/app/*', (req, res) => {
+// Servir os arquivos do front
+// app.use('/app', express.static(path.join(__dirname, 'public/app')));
+// app.get('/app/*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', 'public', 'app', 'index.html'));
+// });
+app.get('/app/*', (req, res, next) => {
+    // Se a URL tiver um ponto, provavelmente é um arquivo (ex: .js, .css, .map)
+    if (req.path.includes('.'))
+        return next();
+    // Senão, retorna o index.html (para rotas SPA)
     res.sendFile(path_1.default.join(__dirname, '..', 'public', 'app', 'index.html'));
 });
 app.use(express_1.default.json());
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // ou '*'
+    res.setHeader('Access-Control-Allow-Origin', '*'); // ou '*'
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', '*');
     res.setHeader('Access-Control-Allow-Credentials', 'true'); // se necessário
     if (req.method === 'OPTIONS')
         return res.sendStatus(200);

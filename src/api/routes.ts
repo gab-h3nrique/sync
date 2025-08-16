@@ -6,16 +6,16 @@ import projectController from "./projectController";
 export default function routes(app) {
 
         
-    app.get('/api/fails', handler.error(failsController.get))
-    app.post('/api/fails', handler.error(failsController.post))
-    app.delete('/api/fails', handler.error(failsController.delete))
+    app.get('/api/fail', handler.error(failsController.get))
+    app.post('/api/fail', handler.error(failsController.post))
+    app.delete('/api/fail', handler.error(failsController.delete))
 
-    app.get('/api/projects', handler.error(projectController.get))
-    app.post('/api/projects', handler.error(projectController.post))
-    app.delete('/api/projects', handler.error(projectController.delete))
+    app.get('/api/project', handler.error(projectController.get))
+    app.post('/api/project', handler.error(projectController.post))
+    app.delete('/api/project', handler.error(projectController.delete))
 
-    app.get('/api/projects/:id/start', handler.error(projectController.start))
-    app.get('/api/projects/:id/stop', handler.error(projectController.stop))
+    app.get('/api/project/:id/start', handler.error(projectController.start))
+    app.get('/api/project/:id/stop', handler.error(projectController.stop))
 
     // app.get('/api/projects/:id/start', projectController.start)
     // app.get('/api/projects/:id/restart', projectController.restart)

@@ -140,7 +140,7 @@ function Svg({ name, className }: Props) {
   useEffect(() => {
     async function loadSvg() {
       try {
-        const res = await fetch(`/icons/${name}.svg`);
+        const res = await fetch(`assets/${name}.svg`);
         const text = await res.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'image/svg+xml');
