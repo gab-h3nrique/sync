@@ -16,6 +16,8 @@ function routes(app) {
     app.delete('/api/project', handler_1.default.error(projectController_1.default.delete));
     app.get('/api/project/:id/start', handler_1.default.error(projectController_1.default.start));
     app.get('/api/project/:id/stop', handler_1.default.error(projectController_1.default.stop));
+    app.post('/api/project/:id/start', handler_1.default.error(projectController_1.default.start));
+    app.post('/api/project/:id/stop', handler_1.default.error(projectController_1.default.stop));
     // app.get('/api/projects/:id/start', projectController.start)
     // app.get('/api/projects/:id/restart', projectController.restart)
     // app.get('/api/projects/:id/stop', projectController.stop)
