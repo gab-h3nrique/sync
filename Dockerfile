@@ -52,30 +52,26 @@
 
 
 
-
 FROM node:24-alpine as deps
 
-RUN apk add --no-cache docker-cli docker-compose
+# Instalar dependências do sistema
+RUN apk add --no-cache docker-cli docker-compose libc6-compat git bash
 
-# Install dependencies only when needed
+# Diretório de trabalho
 WORKDIR /app
-RUN apk add --no-cache libc6-compat
-COPY package*.json ./
-COPY tsconfig.json .env* ./
+
+# Copiar arquivos e instalar dependências Node
+COPY package*.json tsconfig.json .env* ./ 
 COPY prisma ./prisma
 RUN npx prisma generate
-# COPY generated ./dist/generated
 RUN npm install
+
+# Copiar restante do código
 COPY . .
 
+# Build do projeto
 RUN npm run build
 
-
-# ENV HOSTNAME "0.0.0.0"
 EXPOSE 3000
 
 CMD ["node", "--env-file=.env", "dist/server.js"]
-
-
-
-
