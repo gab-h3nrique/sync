@@ -152,7 +152,11 @@ function factory() {
 
     async function runProject(project: ProjectType) {
 
-        const COMMAND = 'docker-compose up -d --build'
+        // const COMMAND = 'docker-compose down --remove-orphans'
+
+        // const COMMAND = 'docker-compose up -d --build --force-recreate'
+
+        const COMMAND = 'docker-compose down --remove-orphans && docker-compose up -d --build --force-recreate'
 
         const PROJECT_PATH: string = preparePath(project);
 
