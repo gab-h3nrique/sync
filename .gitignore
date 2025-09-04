@@ -30,3 +30,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 /generated/prisma
+database.db
