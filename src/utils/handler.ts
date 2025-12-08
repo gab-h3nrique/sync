@@ -8,39 +8,41 @@ function factory() {
         error: (fn: any) => {
             return async (req, res, next) => {
 
-                try {
+                await fn(req, res, next)
 
-                    await fn(req, res, next);
+                // try {
 
-                } catch (error) {
+                //     await fn(req, res, next)
 
-                    const formatedData = {
-                        url: req.url,
-                        method: req.method,
-                        headers: req.headers,
-                        body: req.body,
-                        query: req.query,
-                    }
+                // } catch (error) {
 
-                    const formatedError = {
-                        name: error.name || 'UnknownError',
-                        message: error.message || 'An unknown error occurred.',
-                        stack: error.stack || 'No stack trace available.',
-                    }
+                //     const formatedData = {
+                //         url: req.url,
+                //         method: req.method,
+                //         headers: req.headers,
+                //         body: req.body,
+                //         query: req.query,
+                //     }
 
-                    const item: FailType = {
-                        type: 'api',
-                        name: error.name,
-                        message: error.message,
-                        data: formatedData,
-                        error: formatedError,
-                    }
+                //     const formatedError = {
+                //         name: error.name || 'UnknownError',
+                //         message: error.message || 'An unknown error occurred.',
+                //         stack: error.stack || 'No stack trace available.',
+                //     }
 
-                    await FailModel.upsert(item);
+                //     const item: FailType = {
+                //         type: 'api',
+                //         name: error.name,
+                //         message: error.message,
+                //         data: formatedData,
+                //         error: formatedError,
+                //     }
 
-                    return res.status(500).json({ success: false, data: null, message: 'Internal server error.', });
+                //     await FailModel.upsert(item);
 
-                }
+                //     return res.status(500).json({ success: false, data: null, message: 'Internal server error.', });
+
+                // }
 
             };
 
