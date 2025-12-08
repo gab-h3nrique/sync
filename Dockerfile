@@ -101,6 +101,8 @@ FROM node:24-alpine AS runtime
 
 WORKDIR /app
 
+RUN mkdir -p /app && chmod 777 /app
+
 # Dependências mínimas para rodar Node e Prisma
 RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl sqlite git bash
 
