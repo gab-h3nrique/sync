@@ -63,8 +63,8 @@ WORKDIR /app
 # Copiar arquivos e instalar dependências Node
 COPY package*.json tsconfig.json .env* ./ 
 COPY prisma ./prisma
-RUN npx prisma generate
 RUN npm install
+RUN npx prisma generate
 
 # Copiar restante do código
 COPY . .
