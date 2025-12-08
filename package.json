@@ -8,6 +8,7 @@
     "start": "node --env-file=.env ./dist/src/server.js"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.1.0",
     "@prisma/client": "^7.1.0",
     "bcrypt": "^5.1.1",
     "express": "^4.19.2",
