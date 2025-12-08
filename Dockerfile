@@ -107,6 +107,7 @@ RUN mkdir -p /app && chmod 777 /app
 RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl sqlite git bash
 
 # Copiar build e node_modules do stage anterior
+COPY --from=build /app/.env* ./
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/prisma ./prisma
