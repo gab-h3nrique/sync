@@ -117,6 +117,7 @@ COPY database.db ./database.db
 
 # Garantir permissão de escrita para o SQLite
 RUN chmod 666 ./database.db
+RUN chmod 666 /app/database.db
 
 EXPOSE 3000
 
