@@ -140,14 +140,15 @@ RUN npm install
 RUN npx prisma generate
 
 # Copiar restante do código
+COPY src ./src
 COPY . .
 
 # Build do projeto
 RUN npm run build
 
-COPY database.db ./database.db
-RUN chmod 666 ./database.db
-RUN chmod 666 /app/database.db
+# Criar pasta para o banco de dados e setar permissões
+RUN mkdir -p /data
+RUN chmod 777 /data
 
 EXPOSE 3000
 
