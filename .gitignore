@@ -32,3 +32,4 @@ yarn-error.log*
 
 /generated/prisma
 database.db
+/database.db

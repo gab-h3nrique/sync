@@ -32,7 +32,10 @@ function factory() {
 
             const data = {
 
-                test: process.env.TEST_ENV || 'not set'
+                test: process.env.TEST_ENV || 'not set',
+                ACCESS_TOKEN: process.env.ACCESS_TOKEN || 'not set',
+                PORT: process.env.PORT || 'not set',
+                DATABASE_URL: process.env.DATABASE_URL || 'not set'
 
             }
 
