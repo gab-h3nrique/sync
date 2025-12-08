@@ -1,5 +1,5 @@
 
-export interface ProjectType {
+export type ProjectType = {
 
     id?: number,
 
@@ -14,7 +14,7 @@ export interface ProjectType {
 
     updatedAt?: any,
     createdAt?: any,
-}
+} | null
 
 export const EMPTY_PROJECT = {
 

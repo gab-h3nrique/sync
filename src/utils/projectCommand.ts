@@ -37,7 +37,9 @@ function factory() {
 
         await FailModel.upsert(item)
 
-        const found: ProjectType = await ProjectModel.find(project.id)
+        if(!project || !project.id) return
+
+        const found = await ProjectModel.find(project.id)
 
         if(found) await ProjectModel.upsert({ ...found, status: 'error' })
 
@@ -47,11 +49,13 @@ function factory() {
 
     function preparePath(project: ProjectType) {
 
+        if(!project) throw new Error('Project not found.')
+
         const userHome = os.homedir()
         const defaultBasePath = path.join(userHome, 'apps')
 
         // const basePathSetting = await SettingModel.find('BASE_PATH')
-        const basePathSetting = null // For testing purposes, replace with await SettingModel.find('BASE_PATH') in production
+        const basePathSetting = null as any // For testing purposes, replace with await SettingModel.find('BASE_PATH') in production
 
         const BASE_PATH = basePathSetting && basePathSetting?.value ? basePathSetting.value : defaultBasePath
 
@@ -63,6 +67,8 @@ function factory() {
 
     function prepareEnv(project: ProjectType) {
 
+        if(!project) throw new Error('Project not found.')
+
         const envs = project.envs || {}
 
         // You can add more environment variables here if needed
@@ -73,6 +79,8 @@ function factory() {
     }
 
     async function cloneProject(project: ProjectType) {
+
+        if(!project) throw new Error('Project not found.')
 
         const PROJECT_PATH: string = preparePath(project);
 
@@ -152,6 +160,8 @@ function factory() {
 
     async function runProject(project: ProjectType) {
 
+        if(!project) throw new Error('Project not found.')
+
         // const COMMAND = 'docker-compose down --remove-orphans'
 
         // const COMMAND = 'docker-compose up -d --build --force-recreate'
@@ -194,6 +204,8 @@ function factory() {
     }
 
     async function stopProject(project: ProjectType) {
+
+        if(!project) throw new Error('Project not found.')
         
         const COMMAND = 'docker-compose down'
         const PROJECT_PATH: string = preparePath(project)

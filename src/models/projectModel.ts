@@ -24,7 +24,7 @@ function model() {
 
             })
 
-            return data
+            return data as ProjectType
 
         },
 
@@ -44,11 +44,13 @@ function model() {
 
             }) || []
 
-            return data
+            return data as ProjectType[]
 
         },
 
         upsert: async(item: ProjectType) => {
+
+            if(!item) return null
 
             const data = await query.upsert({
                 where: {
@@ -103,7 +105,7 @@ function model() {
                     { id: 'desc'}
                 ],
 
-            }) || []
+            }) || [] as ProjectType[]
 
             const total = await query.count({
                 where: {
