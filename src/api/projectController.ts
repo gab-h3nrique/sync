@@ -96,9 +96,9 @@ function factory() {
 
         start: async(req: any, res: any) => {
 
-            const id = Number(req.params.id)
+            const query = req.params.query 
 
-            const project: ProjectType = await ProjectModel.find(id)
+            const project: ProjectType = await ProjectModel.find(query)
 
             if(!project) return res.status(404).json({ success: false, data: null, message: 'Project not found.' })
 
@@ -110,9 +110,9 @@ function factory() {
 
         stop: async(req: any, res: any) => {
 
-            const id = Number(req.params.id)
+            const query = req.params.query 
 
-            const project: ProjectType = await ProjectModel.find(id)
+            const project: ProjectType = await ProjectModel.find(query)
 
             if(!project) return res.status(404).json({ success: false, data: null, message: 'Project not found.' })
 

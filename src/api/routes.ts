@@ -14,11 +14,11 @@ export default function routes(app) {
     app.post('/api/project', handler.error(projectController.post))
     app.delete('/api/project', handler.error(projectController.delete))
 
-    app.get('/api/project/:id/start', handler.error(projectController.start))
-    app.get('/api/project/:id/stop', handler.error(projectController.stop))
+    app.get('/api/project/:query/start', handler.error(projectController.start))
+    app.get('/api/project/:query/stop', handler.error(projectController.stop))
 
-    app.post('/api/project/:id/start', handler.error(projectController.start))
-    app.post('/api/project/:id/stop', handler.error(projectController.stop))
+    app.post('/api/project/:query/start', handler.error(projectController.start))
+    app.post('/api/project/:query/stop', handler.error(projectController.stop))
 
     // app.get('/api/projects/:id/start', projectController.start)
     // app.get('/api/projects/:id/restart', projectController.restart)
