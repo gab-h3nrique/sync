@@ -76,7 +76,7 @@
 
 # CMD ["node", "--env-file=.env", "dist/server.js"]
 
-FROM node:24-alpine AS base
+FROM node:24 AS base
 
 # Dependências necessárias para Prisma + SQLite
 RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl sqlite git bash
