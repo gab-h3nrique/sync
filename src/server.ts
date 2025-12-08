@@ -27,15 +27,30 @@ app.get('/app/*', (req, res, next) => {
 
 app.use(express.json())
 
+// middleware to handle CORS and preflight requests
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // ou '*'
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  res.setHeader('Access-Control-Allow-Credentials', 'true'); // se necessário
-  if (req.method === 'OPTIONS') return res.sendStatus(200);
-  next();
-});
 
+  // allow requests from any origin
+  res.setHeader('Access-Control-Allow-Origin', '*')
+
+  // allow common HTTP methods
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+
+  // allow all headers
+  res.setHeader('Access-Control-Allow-Headers', '*')
+
+  // allow credentials if needed
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+
+  // respond immediately to OPTIONS preflight requests
+  if(req.method === 'OPTIONS') return res.sendStatus(200)
+
+  console.log(`request received: ${req.method} ${req.url}`)
+
+  // pass control to the next middleware or route
+  next()
+
+})
 
 routes(app)
 
