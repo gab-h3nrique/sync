@@ -1,7 +1,8 @@
 import path from "path";
-import handler from "../utils/handler";
-import failsController from "./failController";
-import projectController from "./projectController";
+import handler from "./utils/handler";
+import failsController from "./api/failController";
+import projectController from "./api/projectController";
+import testController from "./api/testController";
 
 export default function routes(app) {
 
@@ -9,6 +10,8 @@ export default function routes(app) {
     app.get('/api/fail', handler.error(failsController.get))
     app.post('/api/fail', handler.error(failsController.post))
     app.delete('/api/fail', handler.error(failsController.delete))
+
+    app.get('/api/test', handler.error(testController.get))
 
     app.get('/api/project', handler.error(projectController.get))
     app.post('/api/project', handler.error(projectController.post))

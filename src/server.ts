@@ -2,7 +2,7 @@ import http from 'http'
 import WebSocket from 'ws';
 import jwt from 'jsonwebtoken';
 import express from 'express';
-import routes from './api/routes';
+import routes from './routes';
 import path from 'path';
 
 const port = parseInt(process.env.PORT || '3000', 10)
