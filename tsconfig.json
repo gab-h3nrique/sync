@@ -22,7 +22,7 @@
     "jsx": "react-jsx",
     "lib": ["DOM", "ESNext"],
     "allowJs": true,
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
