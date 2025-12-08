@@ -147,8 +147,8 @@ COPY . .
 RUN npm run build
 
 # Criar pasta para o banco de dados e setar permissões
-RUN mkdir -p /data
-RUN chmod 777 /data
+RUN mkdir -p /data && chmod 777 /data
+
 
 EXPOSE 3000
 
