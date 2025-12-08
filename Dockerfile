@@ -52,24 +52,51 @@
 
 
 
-FROM node:24-alpine as deps
+# FROM node:24-alpine as deps
 
-# Instalar dependências do sistema
-RUN apk add --no-cache docker-cli docker-compose libc6-compat git bash
+# # Instalar dependências do sistema
+# RUN apk add --no-cache docker-cli docker-compose libc6-compat git bash
 
-# Diretório de trabalho
+# # Diretório de trabalho
+# WORKDIR /app
+
+# # Copiar arquivos e instalar dependências Node
+# COPY package*.json tsconfig.json .env* ./ 
+# COPY prisma ./prisma
+# RUN npm install
+# RUN npx prisma generate
+
+# # Copiar restante do código
+# COPY . .
+
+# # Build do projeto
+# RUN npm run build
+
+# EXPOSE 3000
+
+# CMD ["node", "--env-file=.env", "dist/server.js"]
+
+FROM node:24-alpine AS base
+
+# Dependências necessárias para Prisma + SQLite
+RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl sqlite git bash
+
 WORKDIR /app
 
-# Copiar arquivos e instalar dependências Node
-COPY package*.json tsconfig.json .env* ./ 
+# Copia arquivos essenciais primeiro para cache
+COPY package*.json tsconfig.json .env* ./
 COPY prisma ./prisma
+
+# Instala dependências
 RUN npm install
+
+# Gera o Prisma CLIENT CORRETAMENTE (dentro do container)
 RUN npx prisma generate
 
-# Copiar restante do código
+# Copia todo o código
 COPY . .
 
-# Build do projeto
+# Build TypeScript
 RUN npm run build
 
 EXPOSE 3000
