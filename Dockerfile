@@ -52,35 +52,36 @@
 
 
 
-# FROM node:24-alpine as deps
+FROM node:lts-alpine as deps
 
-# # Instalar dependências do sistema
-# RUN apk add --no-cache docker-cli docker-compose libc6-compat git bash
+# Instalar dependências do sistema
+RUN apk add --no-cache docker-cli docker-compose libc6-compat git bash
 
-# # Diretório de trabalho
-# WORKDIR /app
+# Diretório de trabalho
+WORKDIR /app
 
-# # Copiar arquivos e instalar dependências Node
-# COPY package*.json tsconfig.json .env* ./ 
-# COPY prisma ./prisma
-# RUN npm install
-# RUN npx prisma generate
+# Copiar arquivos e instalar dependências Node
+COPY package*.json tsconfig.json .env* ./ 
+COPY prisma ./prisma
+RUN npm install
+# RUN npx prisma migrate dev --name init
+RUN npx prisma generate
 
-# # Copiar restante do código
-# COPY . .
+# Copiar restante do código
+COPY . .
 
-# # Build do projeto
-# RUN npm run build
+# Build do projeto
+RUN npm run build
 
-# EXPOSE 3000
+EXPOSE 3000
 
-# CMD ["node", "--env-file=.env", "dist/server.js"]
+CMD ["node", "--env-file=.env", "dist/server.js"]
 
-# ──────────────── STAGE 1: Build ────────────────
+# # ──────────────── STAGE 1: Build ────────────────
 # FROM node:24-alpine AS build
 
 # # Dependências do sistema necessárias para Prisma
-# RUN apk add --no-cache libc6-compat git bash openssl sqlite
+# RUN apk add --no-cache libc6-compat git bash openssl
 
 # # Diretório de trabalho
 # WORKDIR /app
@@ -104,7 +105,7 @@
 # RUN mkdir -p /app && chmod 777 /app
 
 # # Dependências mínimas para rodar Node e Prisma
-# RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl sqlite git bash
+# RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl git bash
 
 # # Copiar build e node_modules do stage anterior
 # COPY --from=build /app/.env* ./
@@ -112,44 +113,9 @@
 # COPY --from=build /app/node_modules ./node_modules
 # COPY --from=build /app/prisma ./prisma
 
-# # Copiar o banco SQLite
-# COPY database.db ./database.db
-
-# # Garantir permissão de escrita para o SQLite
-# RUN chmod 666 ./database.db
-# RUN chmod 666 /app/database.db
-
 # EXPOSE 3000
 
 # CMD ["node", "--env-file=.env", "dist/server.js"]
 
 
 
-FROM node:24-alpine as runtime
-
-# Instalar dependências do sistema
-RUN apk add --no-cache docker-cli docker-compose libc6-compat git bash
-
-# Diretório de trabalho
-WORKDIR /app
-
-# Copiar arquivos e instalar dependências Node
-COPY package*.json tsconfig.json .env* ./ 
-COPY prisma ./prisma
-RUN npm install
-RUN npx prisma generate
-
-# Copiar restante do código
-COPY src ./src
-COPY . .
-
-# Build do projeto
-RUN npm run build
-
-# Criar pasta para o banco de dados e setar permissões
-RUN mkdir -p /data && chmod 777 /data
-
-
-EXPOSE 3000
-
-CMD ["node", "--env-file=.env", "dist/server.js"]

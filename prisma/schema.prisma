@@ -9,19 +9,13 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
-  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+  // binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
   moduleFormat = "cjs"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
-
-// datasource db {
-//   provider = "sqlite"
-//   // url      = "file:./database.db"
-//   // url = env("DATABASE_URL")
-// }
 
 model Users {
   id                String @id @default(cuid())

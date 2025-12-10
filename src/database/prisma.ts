@@ -1,4 +1,5 @@
 // import { PrismaClient } from '../generated/prisma'
+// // import { PrismaClient } from "@prisma/client";
 
 // declare global {
 //   var prisma: PrismaClient | undefined;
@@ -10,25 +11,22 @@
 
 // export default prisma;
 
-// import { PrismaClient } from '@prisma/client';
 
-// declare global {
-//   var prisma: PrismaClient | undefined;
-// }
+// import { PrismaClient } from './generated/prisma/client';
+// import { PrismaPg } from '@prisma/adapter-pg';
 
-// const prisma = global.prisma || new PrismaClient();
+// const adapter = new PrismaPg({ 
+//   connectionString: process.env.DATABASE_URL 
+// });
+// const prisma = new PrismaClient({ adapter });
 
-// if (process.env.NODE_ENV === "development") global.prisma = prisma;
+import 'dotenv/config'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from '../generated/prisma/client'
 
-// export default prisma;
+const connectionString = `${process.env.DATABASE_URL}`
 
-import { PrismaClient } from '../generated/prisma/client';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL || 'file:/data/database.db'
-})
-
+const adapter = new PrismaPg({ connectionString })
 const prisma = new PrismaClient({ adapter })
 
-export default prisma;
+export default prisma

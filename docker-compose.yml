@@ -1,14 +1,74 @@
 
-services:
+# services:
 
-  # socket service
-  sync:
+  # db:
+  #   image: postgres:16-alpine
+  #   container_name: sync-db
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: garren
+  #     POSTGRES_PASSWORD: garren
+  #     POSTGRES_DB: syncdb
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+#   sync:
+#     build: "./"
+#     container_name: sync
+#     restart: always
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - db
+#     volumes:
+#       # Permite que o container crie outros containers
+#       - .:/src
+      
+#       - /var/run/docker.sock:/var/run/docker.sock
+#     env_file:
+#       - .env
+
+# volumes:
+#   pgdata:
+
+# services:
+
+#   # socket service
+#   sync:
+#     build: "./"
+#     container_name: sync
+#     restart: always
+#     volumes:
+#       - .:/src
+#       - ./database.db:/database.db
+#       - /var/run/docker.sock:/var/run/docker.sock
+#     ports:
+#      - "3000:3000"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sync-db
+    restart: always
+    tty: true
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: postgresql        # ← nome correto da variável
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: postgres        # (opcional, mas bom deixar explícito)
+    volumes:
+      - ./db/db_data:/var/lib/postgresql/data
+
+  api:
     build: "./"
     container_name: sync
-    restart: always
+    ports:
+      - '3000:3000'  # porta da API
     volumes:
       - .:/src
-      - ./database.db:/data/database.db   # mapeia arquivo SQLite
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-     - "3000:3000"
+    depends_on:
+      - db  # garante que o banco rode antes da API
