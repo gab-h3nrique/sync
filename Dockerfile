@@ -1,121 +1,40 @@
-# FROM node:18-alpine AS deps
 
-# # Install dependencies only when needed
+# ──────────────── STAGE 1: Build ────────────────
+FROM node:24-alpine AS build
 
-# WORKDIR /app
-# RUN apk add --no-cache libc6-compat
-# COPY package*.json ./
-# COPY tsconfig.json .env* ./
-# COPY . .
-# RUN npm install
+RUN apk add --no-cache libc6-compat git bash openssl
 
-
-
-
-# FROM node:18-alpine AS builder
-
-# WORKDIR /app
-# COPY --from=deps /app/src/ ./src/
-# COPY --from=deps /app/node_modules ./node_modules
-# COPY --from=deps /app/package*.json ./
-# COPY --from=deps /app/tsconfig.json .env* ./
-# COPY --from=deps /app/.env* ./
-# COPY . .
-# RUN npm run build
-
-
-
-
-# FROM node:18-alpine AS runner
-
-# WORKDIR /app
-
-# COPY --from=deps /app/node_modules ./node_modules
-# COPY --from=deps /app/package*.json ./
-# COPY --from=deps /app/tsconfig.json .env* ./
-# COPY --from=builder /app/dist ./dist/
-# COPY --from=deps /app/.env* ./
-# COPY . .
-
-# EXPOSE 3000
-
-# CMD ["node", "--env-file=.env", "dist/server.js"]
-
-
-
-
-
-
-
-
-
-
-
-
-FROM node:lts-alpine as deps
-
-# Instalar dependências do sistema
-RUN apk add --no-cache docker-cli docker-compose libc6-compat git bash
-
-# Diretório de trabalho
 WORKDIR /app
 
-# Copiar arquivos e instalar dependências Node
-COPY package*.json tsconfig.json .env* ./ 
+COPY package*.json tsconfig.json .env* ./
 COPY prisma ./prisma
+
 RUN npm install
-# RUN npx prisma migrate dev --name init
+RUN npx prisma migrate 
 RUN npx prisma generate
 
-# Copiar restante do código
 COPY . .
-
-# Build do projeto
 RUN npm run build
+
+# ──────────────── STAGE 2: Runtime ────────────────
+FROM node:24-alpine AS runtime
+
+WORKDIR /app
+
+RUN mkdir -p /app && chmod 777 /app
+
+RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl git bash
+
+# COPY --from=build /app/package*.json ./
+COPY --from=build /app/generated ./generated
+COPY --from=build /app/.env* ./
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/prisma ./prisma
+
+# npx prisma migrate deploy && npx prisma generate
 
 EXPOSE 3000
 
-CMD ["node", "--env-file=.env", "dist/server.js"]
-
-# # ──────────────── STAGE 1: Build ────────────────
-# FROM node:24-alpine AS build
-
-# # Dependências do sistema necessárias para Prisma
-# RUN apk add --no-cache libc6-compat git bash openssl
-
-# # Diretório de trabalho
-# WORKDIR /app
-
-# # Copiar arquivos essenciais e instalar dependências
-# COPY package*.json tsconfig.json .env* ./
-# COPY prisma ./prisma
-
-# RUN npm install
-# RUN npx prisma generate
-
-# # Copiar restante do código e buildar TS
-# COPY . .
-# RUN npm run build
-
-# # ──────────────── STAGE 2: Runtime ────────────────
-# FROM node:24-alpine AS runtime
-
-# WORKDIR /app
-
-# RUN mkdir -p /app && chmod 777 /app
-
-# # Dependências mínimas para rodar Node e Prisma
-# RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl git bash
-
-# # Copiar build e node_modules do stage anterior
-# COPY --from=build /app/.env* ./
-# COPY --from=build /app/dist ./dist
-# COPY --from=build /app/node_modules ./node_modules
-# COPY --from=build /app/prisma ./prisma
-
-# EXPOSE 3000
-
-# CMD ["node", "--env-file=.env", "dist/server.js"]
-
-
+CMD ["sh", "-c", "node --env-file=.env dist/server.js"]
 

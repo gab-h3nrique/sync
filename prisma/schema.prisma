@@ -6,15 +6,21 @@
 //   output   = "../src/generated/prisma"
 // }
 
-generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-  // binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
-  moduleFormat = "cjs"
-}
+// generator client {
+//   provider = "prisma-client"
+//   // output   = "../src/generated/prisma"
+//   output   = "../generated/prisma"
+//   // binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+//   moduleFormat = "cjs"
+// }
 
 datasource db {
   provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../generated/prisma_client"
 }
 
 model Users {

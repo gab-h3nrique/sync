@@ -1,5 +1,5 @@
-import prisma from "../database/prisma";
 import { SettingType } from "../types/settingType";
+import prisma from "../utils/prismaClient";
 
 function model() {
 

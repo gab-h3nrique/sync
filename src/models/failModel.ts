@@ -1,5 +1,5 @@
-import prisma from "../database/prisma";
 import { FailType } from "../types/failType";
+import prisma from "../utils/prismaClient";
 
 function model() {
 

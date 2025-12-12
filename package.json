@@ -6,7 +6,7 @@
     "dev": "nodemon --env-file=.env src/server.ts",
     "build": "rm -rf ./dist/ && npx tsc --project tsconfig.json",
     "start": "node --env-file=.env ./dist/server.js",
-    "postinstall": "prisma generate"
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.1.0",

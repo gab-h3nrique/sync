@@ -48,27 +48,44 @@
 #      - "3000:3000"
 
 services:
-  db:
+  sync_db:
     image: postgres:16-alpine
-    container_name: sync-db
+    hostname: sync_db
+    container_name: sync_db
     restart: always
-    tty: true
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: prisma
     ports:
       - '5432:5432'
-    environment:
-      POSTGRES_DB: postgresql        # ← nome correto da variável
-      POSTGRES_PASSWORD: docker
-      POSTGRES_USER: postgres        # (opcional, mas bom deixar explícito)
-    volumes:
-      - ./db/db_data:/var/lib/postgresql/data
+    networks:
+      - sync-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 2s
+      retries: 20
 
-  api:
+  sync:
     build: "./"
-    container_name: sync
+    container_name: sync-app
     ports:
       - '3000:3000'  # porta da API
-    volumes:
-      - .:/src
-      - /var/run/docker.sock:/var/run/docker.sock
+    stdin_open: true
+    tty: true  # Keeps the container running for debugging
     depends_on:
-      - db  # garante que o banco rode antes da API
+      sync_db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - sync-network
+    volumes:
+      # - .:/src
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  sync-network:
+    name: sync-network
+    

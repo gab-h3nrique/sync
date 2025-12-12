@@ -1,5 +1,5 @@
-import prisma from "../database/prisma";
 import { ProjectType } from "../types/projectType";
+import prisma from "../utils/prismaClient";
 
 function model() {
 
