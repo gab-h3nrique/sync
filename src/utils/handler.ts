@@ -8,7 +8,7 @@ function factory() {
         error: (fn: any) => {
             return async (req, res, next) => {
 
-                // await fn(req, res, next)
+                // return await fn(req, res, next)
 
                 try {
 

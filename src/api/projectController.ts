@@ -96,7 +96,7 @@ function factory() {
 
         start: async(req: any, res: any) => {
 
-            const query = req.params.query 
+            const query = String(req.params.query)
 
             const project: ProjectType = await ProjectModel.find(query)
 

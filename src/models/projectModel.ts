@@ -9,13 +9,13 @@ function model() {
 
         query: query,
 
-        find: async(input: any) => {
+        find: async(input: number | string) => {
 
             const data = await query.findFirst({
 
                 where: {
                     OR: [
-                        { id: input }, 
+                        { id: !isNaN(Number(input)) ? Number(input) : -1 }, 
                         { name:{ contains: String(input) } }, 
                         { url:{ contains: String(input) } }, 
                         { branch:{ contains: String(input) } }, 
