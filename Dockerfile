@@ -10,8 +10,6 @@ COPY package*.json tsconfig.json .env* ./
 COPY prisma ./prisma
 
 RUN npm install
-RUN npx prisma migrate 
-RUN npx prisma generate
 
 COPY . .
 RUN npm run build
@@ -25,16 +23,15 @@ RUN mkdir -p /app && chmod 777 /app
 
 RUN apk add --no-cache docker-cli docker-compose libc6-compat openssl git bash
 
-# COPY --from=build /app/package*.json ./
+COPY --from=build /app/prisma.config.ts ./
+COPY --from=build /app/package*.json ./
 COPY --from=build /app/generated ./generated
 COPY --from=build /app/.env* ./
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/prisma ./prisma
 
-# npx prisma migrate deploy && npx prisma generate
-
 EXPOSE 3000
 
-CMD ["sh", "-c", "node --env-file=.env dist/server.js"]
-
+CMD ["sh", "-c", "npm run db:deploy && node --env-file=.env dist/server.js"]
+# CMD ["sh", "-c", "npx prisma migrate deploy && node --env-file=.env dist/server.js"]

@@ -8,6 +8,6 @@ export default defineConfig({
     },
     datasource:{
         url : env("DATABASE_URL")
-        // url: process.env.DATABASE_URL,   // <-- use process.env, not env()
+        // url: process.env.DATABASE_URL as string  // <-- use process.env, not env()
     }
 })
