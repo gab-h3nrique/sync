@@ -162,11 +162,11 @@ function factory() {
 
         if(!project) throw new Error('Project not found.')
 
-        // const COMMAND = 'docker-compose down --remove-orphans'
+        // const COMMAND = 'docker compose down --remove-orphans'
 
-        // const COMMAND = 'docker-compose up -d --build --force-recreate'
+        // const COMMAND = 'docker compose up -d --build --force-recreate'
 
-        const COMMAND = 'docker-compose down --remove-orphans && docker-compose up -d --build --force-recreate'
+        const COMMAND = 'docker compose down --remove-orphans && docker compose up -d --build --force-recreate'
 
         const PROJECT_PATH: string = preparePath(project);
 
@@ -207,7 +207,7 @@ function factory() {
 
         if(!project) throw new Error('Project not found.')
         
-        const COMMAND = 'docker-compose down'
+        const COMMAND = 'docker compose down'
         const PROJECT_PATH: string = preparePath(project)
 
         return new Promise<void>((resolve, reject) => {
@@ -247,14 +247,14 @@ function factory() {
 
             // const child = spawn('docker', ['system', 'prune', '-a', '-f', '--volumes'], { shell: true })
 
-            const child = spawn('docker-compose', ['down', '--volumes', '--rmi', 'all'], { cwd: PROJECT_PATH, shell: true })
+            const child = spawn('docker', ['compose', 'down', '--volumes', '--rmi', 'all'], { cwd: PROJECT_PATH, shell: true })
 
             child.stdout.on('data', (data) => console.log(`[docker stdout]: ${data}`))
             child.stderr.on('data', (data) => console.error(`[docker stderr]: ${data}`))
 
             child.on('close', async(code) => {
 
-                if(code !== 0) reject(new Error(`Docker prune failed with code: ${code}`))
+                if(code !== 0) reject(new Error(`Docker compose down failed with code: ${code}`))
                     
                 await fs.rm(PROJECT_PATH, { recursive: true, force: true })
 
